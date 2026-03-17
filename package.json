@@ -1,0 +1,32 @@
+{
+  "name": "inventory-app",
+  "version": "1.0.0",
+  "description": "A full-stack Node.js and PostgreSQL inventory management app that lets users create, view, update, and delete categorized items through a web interface.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./app.js",
+    "watch": "node --watch ./app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshuaGmartin/inventory-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joshuaGmartin/inventory-app/issues"
+  },
+  "homepage": "https://github.com/joshuaGmartin/inventory-app#readme",
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "ejs": "^5.0.1",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.1",
+    "pg": "^8.20.0"
+  },
+  "devDependencies": {
+    "prettier-plugin-ejs": "^1.0.3"
+  }
+}
