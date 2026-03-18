@@ -3,18 +3,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="js/tableSort.js" defer></script>
   </head>
   <body>
-    <h1>Home</h1>
-    <header>
-      <nav>
-        <!-- GET /films?sort=title&order=asc&genre=Drama -->
-        <a href="">Home</a> | <a href="/films?sort=title&order=asc">Films</a> |
-        <a href="">Directors</a> | <a href="">Genres</a>
-      </nav>
-    </header>
-    <main>
-      <h2></h2>
-    </main>
+  <body>
+    <%- include("partials/header", {title: "Home"}) %>
+
+    <main></main>
   </body>
 </html>
