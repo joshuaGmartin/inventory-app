@@ -1,9 +1,10 @@
-// require db/queries, body
+const query = require("../db/queries");
 
 const validator = [];
 
 async function getAllFilms(req, res) {
-  res.send("lists all films - wip");
+  query.getAllFilms();
+  res.send("test");
 }
 
 module.exports = { getAllFilms };
