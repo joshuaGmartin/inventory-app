@@ -2,12 +2,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Films</title>
+    <title>Films by <%= dir_name %></title>
     <link rel="stylesheet" href="/style.css" />
     <script src="/js/tableSort.js" defer></script>
   </head>
   <body>
-    <%- include("partials/header", {title: "Films"}) %>
+    <%- include("partials/header", {title: `Films by ${dir_name}`}) %>
 
     <table border="1" cellpadding="5" cellspacing="0">
       <thead>
@@ -16,10 +16,14 @@
             <div class="inner-th">
               <span class="header-title">Film Title</span>
               <div class="arrow-container">
-                <a href="/films?sort=title&order=asc" class="arrow up-arrow"
+                <a
+                  href="/directors/films?dir_name=<%= dir_name %>&sort=title&order=asc"
+                  class="arrow up-arrow"
                   >↑</a
                 >
-                <a href="/films?sort=title&order=desc" class="arrow down-arrow"
+                <a
+                  href="/directors/films?dir_name=<%= dir_name %>&sort=title&order=desc"
+                  class="arrow down-arrow"
                   >↓</a
                 >
               </div>
@@ -31,28 +35,12 @@
               <span class="header-title">Release Year</span>
               <div class="arrow-container">
                 <a
-                  href="/films?sort=release_year&order=asc"
+                  href="/directors/films?dir_name=<%= dir_name %>&sort=release_year&order=asc"
                   class="arrow up-arrow"
                   >↑</a
                 >
                 <a
-                  href="/films?sort=release_year&order=desc"
-                  class="arrow down-arrow"
-                  >↓</a
-                >
-              </div>
-            </div>
-          </th>
-
-          <th class="table-header" id="table-header-director">
-            <div class="inner-th">
-              <span class="header-title">Director</span>
-              <div class="arrow-container">
-                <a href="/films?sort=dir_name&order=asc" class="arrow up-arrow"
-                  >↑</a
-                >
-                <a
-                  href="/films?sort=dir_name&order=desc"
+                  href="/directors/films?dir_name=<%= dir_name %>&sort=release_year&order=desc"
                   class="arrow down-arrow"
                   >↓</a
                 >
@@ -65,12 +53,12 @@
               <span class="header-title">Genre</span>
               <div class="arrow-container">
                 <a
-                  href="/films?sort=genre_name&order=asc"
+                  href="/directors/films?dir_name=<%= dir_name %>&sort=genre_name&order=asc"
                   class="arrow up-arrow"
                   >↑</a
                 >
                 <a
-                  href="/films?sort=genre_name&order=desc"
+                  href="/directors/films?dir_name=<%= dir_name %>&sort=genre_name&order=desc"
                   class="arrow down-arrow"
                   >↓</a
                 >
@@ -80,12 +68,11 @@
         </tr>
       </thead>
       <tbody>
-        <% locals.films.forEach((film) => { %>
+        <% locals.directorFilms.forEach((directorFilm) => { %>
         <tr>
-          <td><%= film.title %></td>
-          <td><%= film.release_year %></td>
-          <td><%= film.dir_name %></td>
-          <td><%= film.genre_name %></td>
+          <td><%= directorFilm.title %></td>
+          <td><%= directorFilm.release_year %></td>
+          <td><%= directorFilm.genre_name %></td>
         </tr>
         <% }) %>
       </tbody>

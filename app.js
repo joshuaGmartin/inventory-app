@@ -20,7 +20,7 @@ app.use((req, res) => {
 
 // errors
 app.use((err, req, res, next) => {
-  console.log(err.sta);
+  console.log(err);
   res.status(err.statusCode || 500).send(err.message);
 });
 

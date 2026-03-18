@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Directors</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/js/tableSort.js" defer></script>
+  </head>
+  <body>
+    <%- include("partials/header", {title: "Directors"}) %>
+    <table border="1" cellpadding="5" cellspacing="0">
+      <thead>
+        <tr>
+          <th class="table-header" id="table-header-director">
+            <div class="inner-th">
+              <span class="header-title">Director</span>
+              <div class="arrow-container">
+                <a
+                  href="/directors?sort=dir_name&order=asc"
+                  class="arrow up-arrow"
+                  >↑</a
+                >
+                <a
+                  href="/directors?sort=dir_name&order=desc"
+                  class="arrow down-arrow"
+                  >↓</a
+                >
+              </div>
+            </div>
+          </th>
+
+          <th class="table-header" id="table-header-education">
+            <div class="inner-th">
+              <span class="header-title">Education</span>
+              <div class="arrow-container">
+                <a
+                  href="/directors?sort=school&order=asc"
+                  class="arrow up-arrow"
+                  >↑</a
+                >
+                <a
+                  href="/directors?sort=school&order=desc"
+                  class="arrow down-arrow"
+                  >↓</a
+                >
+              </div>
+            </div>
+          </th>
+
+          <th class="table-header" id="table-header-oscars">
+            <div class="inner-th">
+              <span class="header-title">Num. of Oscars (Director)</span>
+              <div class="arrow-container">
+                <a
+                  href="/directors?sort=dir_oscars&order=asc"
+                  class="arrow up-arrow"
+                  >↑</a
+                >
+                <a
+                  href="/directors?sort=dir_oscars&order=desc"
+                  class="arrow down-arrow"
+                  >↓</a
+                >
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% locals.directors.forEach((director) => { %>
+        <tr>
+          <td>
+            <a
+              href="/directors/films?dir_name=<%= director.dir_name %>&sort=title&order=asc"
+              ><%= director.dir_name %></a
+            >
+          </td>
+          <td><%= director.school %></td>
+          <td><%= director.dir_oscars %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </body>
+</html>
