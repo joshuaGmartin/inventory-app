@@ -1,10 +1,15 @@
-const query = require("../db/queries");
+const queries = require("../db/queries");
 
 const validator = [];
 
-async function getAllFilms(req, res) {
-  query.getAllFilms();
-  res.send("test");
+function getIndex(req, res) {
+  res.render("index");
 }
 
-module.exports = { getAllFilms };
+async function getAllFilms(req, res) {
+  const { sort, order } = req.query;
+  const films = await queries.getAllFilms(sort, order);
+  res.render("films", { films: films });
+}
+
+module.exports = { getIndex, getAllFilms };

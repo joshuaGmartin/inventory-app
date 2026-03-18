@@ -1,0 +1,16 @@
+html {
+  font-family: Arial, sans-serif;
+}
+
+.arrow-container {
+  a.arrow {
+    appearance: none;
+    color: black;
+    text-decoration: none;
+    padding: 0 2.5px 2.5px 2.5px;
+
+    &.selected-arrow {
+      outline: black 2px solid;
+    }
+  }
+}
