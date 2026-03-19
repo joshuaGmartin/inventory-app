@@ -9,9 +9,13 @@ app.use(express.static(assetPath));
 app.use(express.urlencoded({ extended: true }));
 
 const indexRouter = require("./routes/indexRouter");
-const { getAllFilms } = require("./controllers/indexController");
-
 app.use("/", indexRouter);
+
+const filmsRouter = require("./routes/filmsRouter");
+app.use("/films", filmsRouter);
+
+const directorsRouter = require("./routes/directorsRouter");
+app.use("/directors", directorsRouter);
 
 // 404
 app.use((req, res) => {
