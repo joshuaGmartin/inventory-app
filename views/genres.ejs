@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Genres</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/js/tableSort.js" defer></script>
+  </head>
+  <body>
+    <%- include("partials/header", {title: "Genres"}) %>
+    <table border="1" cellpadding="5" cellspacing="0">
+      <thead>
+        <tr>
+          <th class="table-header" id="table-header-genre">
+            <div class="inner-th">
+              <span class="header-title">Genre</span>
+              <div class="arrow-container">
+                <a
+                  href="/genres?sort=genre_name&order=asc"
+                  class="arrow up-arrow"
+                  >↑</a
+                >
+                <a
+                  href="/genres?sort=genre_name&order=desc"
+                  class="arrow down-arrow"
+                  >↓</a
+                >
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% locals.genres.forEach((genre) => { %>
+        <tr>
+          <td>
+            <a
+              href="/genres/films?genre_name=<%= genre.genre_name %>&sort=title&order=asc"
+              ><%= genre.genre_name %></a
+            >
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </body>
+</html>

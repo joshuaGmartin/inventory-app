@@ -17,6 +17,9 @@ app.use("/films", filmsRouter);
 const directorsRouter = require("./routes/directorsRouter");
 app.use("/directors", directorsRouter);
 
+const genresRouter = require("./routes/genresRouter");
+app.use("/genres", genresRouter);
+
 // 404
 app.use((req, res) => {
   res.status(404).send("Page does not exist");

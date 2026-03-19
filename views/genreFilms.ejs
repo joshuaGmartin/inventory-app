@@ -1,0 +1,81 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= genre_name %> Films</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/js/tableSort.js" defer></script>
+  </head>
+  <body>
+    <%- include("partials/header", {title: `${genre_name} Films`}) %>
+
+    <table border="1" cellpadding="5" cellspacing="0">
+      <thead>
+        <tr>
+          <th class="table-header" id="table-header-title">
+            <div class="inner-th">
+              <span class="header-title">Film Title</span>
+              <div class="arrow-container">
+                <a
+                  href="/genres/films?genre_name=<%= genre_name %>&sort=title&order=asc"
+                  class="arrow up-arrow"
+                  >↑</a
+                >
+                <a
+                  href="/genres/films?genre_name=<%= genre_name %>&sort=title&order=desc"
+                  class="arrow down-arrow"
+                  >↓</a
+                >
+              </div>
+            </div>
+          </th>
+
+          <th class="table-header" id="table-header-release-year">
+            <div class="inner-th">
+              <span class="header-title">Release Year</span>
+              <div class="arrow-container">
+                <a
+                  href="/genres/films?genre_name=<%= genre_name %>&sort=release_year&order=asc"
+                  class="arrow up-arrow"
+                  >↑</a
+                >
+                <a
+                  href="/genres/films?genre_name=<%= genre_name %>&sort=release_year&order=desc"
+                  class="arrow down-arrow"
+                  >↓</a
+                >
+              </div>
+            </div>
+          </th>
+
+          <th class="table-header" id="table-header-director">
+            <div class="inner-th">
+              <span class="header-title">Director</span>
+              <div class="arrow-container">
+                <a
+                  href="/genres/films?genre_name=<%= genre_name %>&sort=dir_name&order=asc"
+                  class="arrow up-arrow"
+                  >↑</a
+                >
+                <a
+                  href="/genres/films?genre_name=<%= genre_name %>&sort=dir_name&order=desc"
+                  class="arrow down-arrow"
+                  >↓</a
+                >
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% locals.genreFilms.forEach((genreFilm) => { %>
+        <tr>
+          <td><%= genreFilm.title %></td>
+          <td><%= genreFilm.release_year %></td>
+          <td><%= genreFilm.dir_name %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </body>
+</html>

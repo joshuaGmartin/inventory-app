@@ -9,9 +9,9 @@ async function getAllDirectors(req, res) {
   res.render("directors", { directors: directors });
 }
 
-async function getAllDirectorsFilms(req, res) {
+async function getAllDirectorFilms(req, res) {
   const { dir_name, sort, order } = req.query;
-  const directorFilms = await queries.getAllDirectorsFilms(
+  const directorFilms = await queries.getAllDirectorFilms(
     dir_name,
     sort,
     order,
@@ -25,5 +25,5 @@ async function getAllDirectorsFilms(req, res) {
 
 module.exports = {
   getAllDirectors,
-  getAllDirectorsFilms,
+  getAllDirectorFilms,
 };

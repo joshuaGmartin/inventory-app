@@ -1,5 +1,9 @@
 const pool = require("./pool");
 
+// ============================================================================================
+// Films
+// ============================================================================================
+
 async function getAllFilms(sort, order) {
   // sanitize inputs
   if (sort) {
@@ -15,8 +19,13 @@ async function getAllFilms(sort, order) {
   const { rows } = await pool.query(
     `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id ORDER BY ${sort} ${order}`,
   );
+
   return rows;
 }
+
+// ============================================================================================
+// Directors
+// ============================================================================================
 
 async function getAllDirectors(sort, order) {
   // sanitize inputs
@@ -33,13 +42,14 @@ async function getAllDirectors(sort, order) {
   const { rows } = await pool.query(
     `SELECT * FROM directors ORDER BY ${sort} ${order}`,
   );
+
   return rows;
 }
 
-async function getAllDirectorsFilms(dir_name, sort, order) {
+async function getAllDirectorFilms(dir_name, sort, order) {
   // sanitize inputs
   if (sort) {
-    const allowedSorts = ["title", "release_year", "dir_name", "genre_name"];
+    const allowedSorts = ["title", "release_year", "genre_name"];
     if (!allowedSorts.includes(sort)) sort = "title";
   } else sort = "title";
 
@@ -55,4 +65,52 @@ async function getAllDirectorsFilms(dir_name, sort, order) {
   return rows;
 }
 
-module.exports = { getAllFilms, getAllDirectors, getAllDirectorsFilms };
+// ============================================================================================
+// Genres
+// ============================================================================================
+
+async function getAllGenres(sort, order) {
+  // sanitize inputs
+  if (sort) {
+    const allowedSorts = ["genre_name"];
+    if (!allowedSorts.includes(sort)) sort = "genre_name";
+  } else sort = "genre_name";
+
+  if (order) {
+    const allowedOrders = ["asc", "desc"];
+    if (!allowedOrders.includes(order.toLowerCase())) order = "asc";
+  } else order = "asc";
+
+  const { rows } = await pool.query(
+    `SELECT * FROM genres ORDER BY ${sort} ${order}`,
+  );
+
+  return rows;
+}
+
+async function getAllGenreFilms(genre_name, sort, order) {
+  // sanitize inputs
+  if (sort) {
+    const allowedSorts = ["title", "release_year", "dir_name"];
+    if (!allowedSorts.includes(sort)) sort = "title";
+  } else sort = "title";
+
+  if (order) {
+    const allowedOrders = ["asc", "desc"];
+    if (!allowedOrders.includes(order.toLowerCase())) order = "asc";
+  } else order = "asc";
+
+  const { rows } = await pool.query(
+    `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE genre_name = '${genre_name}' ORDER BY ${sort} ${order}`,
+  );
+
+  return rows;
+}
+
+module.exports = {
+  getAllFilms,
+  getAllDirectors,
+  getAllDirectorFilms,
+  getAllGenres,
+  getAllGenreFilms,
+};
