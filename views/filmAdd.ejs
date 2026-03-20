@@ -1,0 +1,74 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add a Film</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/js/main.js" defer></script>
+  </head>
+  <body>
+    <%- include("partials/header", {title: "Add a Film"}) %>
+    <%- include("partials/errors") %>
+    <form action="/films/add" method="post">
+      <label for="filmTitleInput"
+        >Title:
+        <input
+          type="text"
+          name="filmTitleInput"
+          id="filmTitleInput"
+          placeholder="Input film title..."
+          value="<%= inputData.filmTitleInput %>"
+          required
+      /></label>
+
+      <label for="releaseYearInput"
+        >Release Year:
+        <input
+          type="number"
+          name="releaseYearInput"
+          id="releaseYearInput"
+          min="1900"
+          placeholder="Input year film released..."
+          value="<%= inputData.releaseYearInput %>"
+          required
+      /></label>
+
+      <label for="directorInput"
+        >Director:
+        <select name="directorInput" id="directorInput" required>
+          <option value="" disabled hidden selected>
+            Choose a director...
+          </option>
+          <% directors.forEach((director) => { %>
+          <!-- The browser can handle dynamic html tags, but prettier can't. Want to preserve formatter -->
+          <% if (Number(inputData.directorInput) === Number(director.id)) { %>
+          <option value="<%= director.id %>" selected>
+            <%= director.dir_name %>
+          </option>
+          <% } else { %>
+          <option value="<%= director.id %>"><%= director.dir_name %></option>
+          <% } %>
+          <% }) %>
+        </select>
+      </label>
+
+      <label for="genreInput"
+        >Genre:
+        <select name="genreInput" id="genreInput" required>
+          <option value="" disabled selected hidden>Select genre...</option>
+          <% genres.forEach((genre) => { %>
+          <!-- The browser can handle dynamic html tags, but prettier can't. Want to preserve formatter -->
+          <% if (Number(inputData.genreInput) === Number(genre.id)) { %>
+          <option value="<%= genre.id %>" selected>
+            <%= genre.genre_name %>
+          </option>
+          <% } else { %>
+          <option value="<%= genre.id %>"><%= genre.genre_name %></option>
+          <% } %>
+          <% }) %>
+        </select>
+      </label>
+      <button type="submit">Add Film</button>
+    </form>
+  </body>
+</html>

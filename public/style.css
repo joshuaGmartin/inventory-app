@@ -6,6 +6,16 @@ header {
   margin-bottom: 1rem;
 }
 
+.database-tools {
+  line-height: 1.5;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 table {
   th .inner-th {
     display: flex;
