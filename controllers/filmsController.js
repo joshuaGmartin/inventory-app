@@ -2,10 +2,18 @@ const queries = require("../db/queries");
 const { body, validationResult, matchedData } = require("express-validator");
 
 const validator = [
-  body("filmTitleInput").trim(),
+  body("filmTitleInput")
+    .trim()
+    .notEmpty()
+    .withMessage("Must include film title"),
   body("releaseYearInput")
+    .trim()
+    .notEmpty()
+    .withMessage("Must include release year")
     .isInt({ max: new Date().getFullYear() })
     .withMessage("Release year cannot be in the future"),
+  body("directorInput").trim().notEmpty().withMessage("Must include director"),
+  body("genreInput").trim().notEmpty().withMessage("Must include genre"),
 ];
 
 async function getAllFilms(req, res) {
@@ -31,18 +39,18 @@ const postAddFilm = [
   validator,
   async function postAddFilm(req, res) {
     const errors = validationResult(req);
-    const inputData = {
-      filmTitleInput: req.body.filmTitleInput,
-      releaseYearInput: req.body.releaseYearInput,
-      directorInput: req.body.directorInput,
-      genreInput: req.body.genreInput,
-    };
 
     if (!errors.isEmpty()) {
       const genres = await queries.getAllGenres();
       const directors = await queries.getAllDirectors();
+      const inputData = {
+        filmTitleInput: req.body.filmTitleInput,
+        releaseYearInput: req.body.releaseYearInput,
+        directorInput: req.body.directorInput,
+        genreInput: req.body.genreInput,
+      };
 
-      res.status(400).render("filmAdd", {
+      return res.status(400).render("filmAdd", {
         genres: genres,
         directors: directors,
         errors: errors.array(),
@@ -50,7 +58,17 @@ const postAddFilm = [
       });
     }
 
-    // res.redirect("/");
+    const { filmTitleInput, releaseYearInput, directorInput, genreInput } =
+      matchedData(req);
+
+    await queries.addFilm(
+      filmTitleInput,
+      releaseYearInput,
+      directorInput,
+      genreInput,
+    );
+
+    res.redirect("/");
   },
 ];
 

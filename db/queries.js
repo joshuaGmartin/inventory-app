@@ -17,10 +17,23 @@ async function getAllFilms(sort, order) {
   } else order = "asc";
 
   const { rows } = await pool.query(
-    `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id ORDER BY ${sort} ${order}`,
+    `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id ORDER BY LOWER(${sort}) ${order}`,
   );
 
   return rows;
+}
+
+async function addFilm(
+  filmTitleInput,
+  releaseYearInput,
+  directorInput,
+  genreInput,
+) {
+  await pool.query(
+    `INSERT INTO films (title, director_id, release_year, genre_id) VALUES
+        ($1, $2, $3, $4)`,
+    [filmTitleInput, directorInput, releaseYearInput, genreInput],
+  );
 }
 
 // ============================================================================================
@@ -40,7 +53,7 @@ async function getAllDirectors(sort, order) {
   } else order = "asc";
 
   const { rows } = await pool.query(
-    `SELECT * FROM directors ORDER BY ${sort} ${order}`,
+    `SELECT * FROM directors ORDER BY LOWER(${sort}) ${order}`,
   );
 
   return rows;
@@ -59,7 +72,7 @@ async function getAllDirectorFilms(dir_name, sort, order) {
   } else order = "asc";
 
   const { rows } = await pool.query(
-    `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE dir_name = '${dir_name}' ORDER BY ${sort} ${order}`,
+    `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE dir_name = '${dir_name}' ORDER BY LOWER(${sort}) ${order}`,
   );
 
   return rows;
@@ -82,7 +95,7 @@ async function getAllGenres(sort, order) {
   } else order = "asc";
 
   const { rows } = await pool.query(
-    `SELECT * FROM genres ORDER BY ${sort} ${order}`,
+    `SELECT * FROM genres ORDER BY LOWER(${sort}) ${order}`,
   );
 
   return rows;
@@ -101,7 +114,7 @@ async function getAllGenreFilms(genre_name, sort, order) {
   } else order = "asc";
 
   const { rows } = await pool.query(
-    `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE genre_name = '${genre_name}' ORDER BY ${sort} ${order}`,
+    `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE genre_name = '${genre_name}' ORDER BY LOWER(${sort}) ${order}`,
   );
 
   return rows;
@@ -113,4 +126,5 @@ module.exports = {
   getAllDirectorFilms,
   getAllGenres,
   getAllGenreFilms,
+  addFilm,
 };

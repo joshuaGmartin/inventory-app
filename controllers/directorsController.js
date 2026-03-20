@@ -1,6 +1,21 @@
 const queries = require("../db/queries");
+const { body, validationResult, matchedData } = require("express-validator");
 
-const validator = [];
+const validator = [
+  body("directorInput").trim().notEmpty().withMessage("Must include name"),
+  body("educationInput")
+    .trim()
+    .notEmpty()
+    .withMessage(
+      'Must include school (enter "Self-taught" if did not attend school)',
+    ),
+  body("oscarsInput")
+    .trim()
+    .notEmpty()
+    .withMessage("Must include number of oscars")
+    .isInt({ min: 0 })
+    .withMessage("Cannot have negative oscars"),
+];
 
 async function getAllDirectors(req, res) {
   const { sort, order } = req.query;
@@ -23,7 +38,38 @@ async function getAllDirectorFilms(req, res) {
   });
 }
 
+async function getAddDirector(req, res) {
+  const inputData = {};
+
+  res.render("directorAdd", {
+    inputData: inputData,
+  });
+}
+const postAddDirector = [
+  validator,
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      const inputData = {
+        directorInput: req.body.directorInput,
+        educationInput: req.body.educationInput,
+        oscarsInput: req.body.oscarsInput,
+      };
+
+      return res.status(400).render("directorAdd", {
+        inputData: inputData,
+        errors: errors.array(),
+      });
+    }
+
+    res.redirect("/");
+  },
+];
+
 module.exports = {
   getAllDirectors,
   getAllDirectorFilms,
+  getAddDirector,
+  postAddDirector,
 };

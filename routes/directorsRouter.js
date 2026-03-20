@@ -4,5 +4,7 @@ const directorsController = require("../controllers/directorsController");
 
 directorsRouter.get("/", directorsController.getAllDirectors);
 directorsRouter.get("/films", directorsController.getAllDirectorFilms);
+directorsRouter.get("/add", directorsController.getAddDirector);
+directorsRouter.post("/add", directorsController.postAddDirector);
 
 module.exports = directorsRouter;
