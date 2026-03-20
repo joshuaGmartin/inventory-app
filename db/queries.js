@@ -78,6 +78,14 @@ async function getAllDirectorFilms(dir_name, sort, order) {
   return rows;
 }
 
+async function addDirector(directorInput, educationInput, oscarsInput) {
+  await pool.query(
+    `INSERT INTO directors (dir_name, school, dir_oscars) VALUES
+        ($1, $2, $3)`,
+    [directorInput, educationInput, oscarsInput],
+  );
+}
+
 // ============================================================================================
 // Genres
 // ============================================================================================
@@ -120,6 +128,14 @@ async function getAllGenreFilms(genre_name, sort, order) {
   return rows;
 }
 
+async function addGenre(genreInput) {
+  await pool.query(
+    `INSERT INTO genres (genre_name) VALUES
+        ($1)`,
+    [genreInput],
+  );
+}
+
 module.exports = {
   getAllFilms,
   getAllDirectors,
@@ -127,4 +143,6 @@ module.exports = {
   getAllGenres,
   getAllGenreFilms,
   addFilm,
+  addDirector,
+  addGenre,
 };

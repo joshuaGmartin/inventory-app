@@ -1,6 +1,9 @@
 const queries = require("../db/queries");
+const { body, validationResult, matchedData } = require("express-validator");
 
-const validator = [];
+const validator = [
+  body("genreInput").trim().notEmpty().withMessage("Must include genre"),
+];
 
 async function getAllGenres(req, res) {
   const { sort, order } = req.query;
@@ -19,7 +22,40 @@ async function getAllGenreFilms(req, res) {
   });
 }
 
+async function getAddGenre(req, res) {
+  const inputData = {};
+
+  res.render("genreAdd", {
+    inputData: inputData,
+  });
+}
+
+const postAddGenre = [
+  validator,
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      const inputData = {
+        genreInput: req.body.genreInput,
+      };
+
+      return res.status(400).render("genreAdd", {
+        inputData: inputData,
+        errors: errors.array(),
+      });
+    }
+
+    const { genreInput } = matchedData(req);
+    await queries.addGenre(genreInput);
+
+    res.redirect("/");
+  },
+];
+
 module.exports = {
   getAllGenres,
   getAllGenreFilms,
+  getAddGenre,
+  postAddGenre,
 };

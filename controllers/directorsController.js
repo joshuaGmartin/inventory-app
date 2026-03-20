@@ -45,6 +45,7 @@ async function getAddDirector(req, res) {
     inputData: inputData,
   });
 }
+
 const postAddDirector = [
   validator,
   async (req, res) => {
@@ -62,6 +63,9 @@ const postAddDirector = [
         errors: errors.array(),
       });
     }
+
+    const { directorInput, educationInput, oscarsInput } = matchedData(req);
+    await queries.addDirector(directorInput, educationInput, oscarsInput);
 
     res.redirect("/");
   },
