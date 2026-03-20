@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Films by <%= dir_name %></title>
     <link rel="stylesheet" href="/style.css" />
-    <script src="/js/tableSort.js" defer></script>
+    <script type="module" src="/js/main.js" defer></script>
   </head>
   <body>
     <%- include("partials/header", {title: `Films by ${dir_name}`}) %>
@@ -72,7 +72,12 @@
         <tr>
           <td><%= directorFilm.title %></td>
           <td><%= directorFilm.release_year %></td>
-          <td><%= directorFilm.genre_name %></td>
+          <td>
+            <a
+              href="/genres/films?genre_name=<%= directorFilm.genre_name %>&sort=title&order=asc"
+              ><%= directorFilm.genre_name %></a
+            >
+          </td>
         </tr>
         <% }) %>
       </tbody>

@@ -13,6 +13,10 @@ table {
     justify-content: center;
     align-items: center;
 
+    &:hover {
+      cursor: pointer;
+    }
+
     .arrow-container {
       min-width: max-content;
 
