@@ -81,7 +81,7 @@ const postAddFilm = [
   },
 ];
 
-const getSearchFilm = [
+const getSearchFilms = [
   searchFilmValidator,
   async function (req, res) {
     const errors = validationResult(req);
@@ -94,8 +94,17 @@ const getSearchFilm = [
         errors: errors.array(),
       });
     }
+
+    const { sort, order } = req.query;
+    console.log(sort, order);
     const { searchTerm } = matchedData(req);
-    const films = await queries.searchFilms(searchTerm, "title", "asc");
+
+    const searchFilms = await queries.searchFilms(searchTerm, sort, order);
+
+    res.render("films/searchFilms", {
+      searchFilms: searchFilms,
+      searchTerm: searchTerm,
+    });
   },
 ];
 
@@ -103,5 +112,5 @@ module.exports = {
   getAllFilms,
   getAddFilm,
   postAddFilm,
-  getSearchFilm,
+  getSearchFilms,
 };

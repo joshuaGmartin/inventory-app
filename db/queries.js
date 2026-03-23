@@ -49,6 +49,7 @@ async function searchFilms(searchTerm, sort, order) {
     if (!allowedOrders.includes(order.toLowerCase())) order = "asc";
   } else order = "asc";
 
+  // include year search?
   const { rows } = await pool.query(
     `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE title ILIKE $1 OR release_year::text ILIKE $1 ORDER BY ${sort} ${order}`,
     [`%${searchTerm}%`],

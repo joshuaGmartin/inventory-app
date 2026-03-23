@@ -1,13 +1,13 @@
 const params = new URLSearchParams(window.location.search);
-const sort = params.get("sort");
-const order = params.get("order");
+const sort = params.get("sort") || "title";
+const order = params.get("order") || "asc";
 const path = window.location.pathname;
 
 // sanitize inputs for paths
 // =========================================================================================================
 // /films
 // =========================================================================================================
-if (path === "/films") {
+if (path === "/films" || path === "/films/search") {
   const thTitle = document.getElementById("table-header-title");
   const thReleaseYear = document.getElementById("table-header-release-year");
   const thDirector = document.getElementById("table-header-director");
