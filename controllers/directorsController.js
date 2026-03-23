@@ -21,7 +21,7 @@ async function getAllDirectors(req, res) {
   const { sort, order } = req.query;
   const directors = await queries.getAllDirectors(sort, order);
 
-  res.render("directors", { directors: directors });
+  res.render("directors/directors", { directors: directors });
 }
 
 async function getAllDirectorFilms(req, res) {
@@ -32,7 +32,7 @@ async function getAllDirectorFilms(req, res) {
     order,
   );
 
-  res.render("directorFilms", {
+  res.render("directors/directorFilms", {
     dir_name: dir_name,
     directorFilms: directorFilms,
   });
@@ -41,7 +41,7 @@ async function getAllDirectorFilms(req, res) {
 async function getAddDirector(req, res) {
   const inputData = {};
 
-  res.render("directorAdd", {
+  res.render("directors/directorAdd", {
     inputData: inputData,
   });
 }
@@ -58,7 +58,7 @@ const postAddDirector = [
         oscarsInput: req.body.oscarsInput,
       };
 
-      return res.status(400).render("directorAdd", {
+      return res.status(400).render("directors/directorAdd", {
         inputData: inputData,
         errors: errors.array(),
       });

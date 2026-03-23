@@ -7,8 +7,8 @@
     <script type="module" src="/js/main.js" defer></script>
   </head>
   <body>
-    <%- include("partials/header", {title: "Add a Genre"}) %>
-    <%- include("partials/errors") %>
+    <%- include("../partials/header", {title: "Add a Genre"}) %>
+    <%- include("../partials/errors") %>
     <form action="/genres/add" method="post">
       <label for="genreInput"
         >Genre:

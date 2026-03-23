@@ -7,8 +7,8 @@
     <script type="module" src="/js/main.js" defer></script>
   </head>
   <body>
-    <%- include("partials/header", {title: "Add a Director"}) %>
-    <%- include("partials/errors") %>
+    <%- include("../partials/header", {title: "Add a Director"}) %>
+    <%- include("../partials/errors") %>
     <form action="/directors/add" method="post">
       <label for="directorInput"
         >Name:

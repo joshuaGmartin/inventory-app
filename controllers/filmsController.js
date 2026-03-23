@@ -1,7 +1,12 @@
 const queries = require("../db/queries");
-const { body, validationResult, matchedData } = require("express-validator");
+const {
+  body,
+  query,
+  validationResult,
+  matchedData,
+} = require("express-validator");
 
-const validator = [
+const addFilmValidator = [
   body("filmTitleInput")
     .trim()
     .notEmpty()
@@ -16,11 +21,15 @@ const validator = [
   body("genreInput").trim().notEmpty().withMessage("Must include genre"),
 ];
 
+const searchFilmValidator = [
+  query("searchTerm").trim().notEmpty().withMessage("Must include search term"),
+];
+
 async function getAllFilms(req, res) {
   const { sort, order } = req.query;
   const films = await queries.getAllFilms(sort, order);
 
-  res.render("films", { films: films });
+  res.render("films/films", { films: films });
 }
 
 async function getAddFilm(req, res) {
@@ -28,7 +37,7 @@ async function getAddFilm(req, res) {
   const directors = await queries.getAllDirectors();
   const inputData = {};
 
-  res.render("filmAdd", {
+  res.render("films/filmAdd", {
     genres: genres,
     directors: directors,
     inputData: inputData,
@@ -36,7 +45,7 @@ async function getAddFilm(req, res) {
 }
 
 const postAddFilm = [
-  validator,
+  addFilmValidator,
   async function postAddFilm(req, res) {
     const errors = validationResult(req);
 
@@ -50,7 +59,7 @@ const postAddFilm = [
         genreInput: req.body.genreInput,
       };
 
-      return res.status(400).render("filmAdd", {
+      return res.status(400).render("films/filmAdd", {
         genres: genres,
         directors: directors,
         errors: errors.array(),
@@ -72,8 +81,27 @@ const postAddFilm = [
   },
 ];
 
+const getSearchFilm = [
+  searchFilmValidator,
+  async function (req, res) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      const films = await queries.getAllFilms();
+
+      return res.render("flims/films", {
+        films: films,
+        errors: errors.array(),
+      });
+    }
+    const { searchTerm } = matchedData(req);
+    const films = await queries.searchFilms(searchTerm, "title", "asc");
+  },
+];
+
 module.exports = {
   getAllFilms,
   getAddFilm,
   postAddFilm,
+  getSearchFilm,
 };
