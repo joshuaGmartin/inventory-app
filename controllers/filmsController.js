@@ -6,7 +6,7 @@ const {
   matchedData,
 } = require("express-validator");
 
-const addFilmValidator = [
+const addEditFilmValidator = [
   body("filmTitleInput")
     .trim()
     .notEmpty()
@@ -45,7 +45,7 @@ async function getAddFilm(req, res) {
 }
 
 const postAddFilm = [
-  addFilmValidator,
+  addEditFilmValidator,
   async function postAddFilm(req, res) {
     const errors = validationResult(req);
     console.log(errors);
@@ -124,10 +124,53 @@ async function getEditFilm(req, res) {
   });
 }
 
+const postEditFilm = [
+  addEditFilmValidator,
+  async (req, res) => {
+    const errors = validationResult(req);
+    const { film_id } = req.query;
+
+    if (!errors.isEmpty()) {
+      const genres = await queries.getAllGenres();
+      const directors = await queries.getAllDirectors();
+      const film = {};
+      const inputData = {
+        filmTitleInput: req.body.filmTitleInput,
+        releaseYearInput: req.body.releaseYearInput,
+        directorInput: req.body.directorInput,
+        genreInput: req.body.genreInput,
+      };
+
+      return res.render("films/editFilm", {
+        film: film,
+        inputFilmId: film_id,
+        genres: genres,
+        directors: directors,
+        inputData: inputData,
+        errors: errors.array(),
+      });
+    }
+
+    const { filmTitleInput, releaseYearInput, directorInput, genreInput } =
+      matchedData(req);
+
+    await queries.editFilm(
+      film_id,
+      filmTitleInput,
+      releaseYearInput,
+      directorInput,
+      genreInput,
+    );
+
+    res.redirect("/");
+  },
+];
+
 module.exports = {
   getAllFilms,
   getAddFilm,
   postAddFilm,
   getSearchFilms,
   getEditFilm,
+  postEditFilm,
 };

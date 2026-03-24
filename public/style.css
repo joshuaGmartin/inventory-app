@@ -23,6 +23,10 @@ form {
       width: 15rem;
     }
   }
+
+  #filmTitleInput {
+    width: 20rem;
+  }
 }
 
 table {

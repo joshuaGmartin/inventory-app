@@ -17,7 +17,7 @@ async function getAllFilms(sort, order) {
   } else order = "asc";
 
   const { rows } = await pool.query(
-    `SELECT *, films.id as film_id FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id ORDER BY ${sort} ${order}`,
+    `SELECT *, films.id as film_id FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id ORDER BY LOWER(${sort}) ${order}`,
   );
 
   return rows;
@@ -51,7 +51,7 @@ async function searchFilms(searchTerm, sort, order) {
 
   // include year search?
   const { rows } = await pool.query(
-    `SELECT *, films.id as film_id FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE title ILIKE $1 OR release_year::text ILIKE $1 ORDER BY ${sort} ${order}`,
+    `SELECT *, films.id as film_id FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE title ILIKE $1 OR release_year::text ILIKE $1 ORDER BY LOWER(${sort}) ${order}`,
     [`%${searchTerm}%`],
   );
 
@@ -65,6 +65,26 @@ async function getEditFilm(film_id) {
   );
 
   return rows[0];
+}
+
+async function editFilm(
+  film_id,
+  filmTitleInput,
+  releaseYearInput,
+  directorInput,
+  genreInput,
+) {
+  await pool.query(
+    `
+    UPDATE films 
+    SET title = $1,
+        release_year = $2,
+        director_id = $3,
+        genre_id = $4
+    WHERE id = $5
+    `,
+    [filmTitleInput, releaseYearInput, directorInput, genreInput, film_id],
+  );
 }
 
 // ============================================================================================
@@ -84,7 +104,7 @@ async function getAllDirectors(sort, order) {
   } else order = "asc";
 
   const { rows } = await pool.query(
-    `SELECT * FROM directors ORDER BY ${sort} ${order}`,
+    `SELECT * FROM directors ORDER BY LOWER(${sort}) ${order}`,
   );
 
   return rows;
@@ -103,7 +123,7 @@ async function getAllDirectorFilms(dir_name, sort, order) {
   } else order = "asc";
 
   const { rows } = await pool.query(
-    `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE dir_name = '${dir_name}' ORDER BY ${sort} ${order}`,
+    `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE dir_name = '${dir_name}' ORDER BY LOWER(${sort}) ${order}`,
   );
 
   return rows;
@@ -130,7 +150,7 @@ async function searchDirectors(searchTerm, sort, order) {
   } else order = "asc";
 
   const { rows } = await pool.query(
-    `SELECT * FROM directors WHERE dir_name ILIKE $1 OR school ILIKE $1 ORDER BY ${sort} ${order}`,
+    `SELECT * FROM directors WHERE dir_name ILIKE $1 OR school ILIKE $1 ORDER BY LOWER(${sort}) ${order}`,
     [`%${searchTerm}%`],
   );
 
@@ -154,7 +174,7 @@ async function getAllGenres(sort, order) {
   } else order = "asc";
 
   const { rows } = await pool.query(
-    `SELECT * FROM genres ORDER BY ${sort} ${order}`,
+    `SELECT * FROM genres ORDER BY LOWER(${sort}) ${order}`,
   );
 
   return rows;
@@ -173,7 +193,7 @@ async function getAllGenreFilms(genre_name, sort, order) {
   } else order = "asc";
 
   const { rows } = await pool.query(
-    `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE genre_name = '${genre_name}' ORDER BY ${sort} ${order}`,
+    `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE genre_name = '${genre_name}' ORDER BY LOWER(${sort}) ${order}`,
   );
 
   return rows;
@@ -192,6 +212,7 @@ module.exports = {
   addFilm,
   searchFilms,
   getEditFilm,
+  editFilm,
   getAllDirectors,
   getAllDirectorFilms,
   addDirector,

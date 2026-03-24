@@ -8,10 +8,12 @@
   </head>
   <body>
     <%- include("../partials/header", {title: `Edit Film (id: ${locals.inputFilmId})`}) %>
+    <%- include("../partials/errors") %>
+
     <% if (!locals.film) { %>
     Film data not found
     <% } else { %>
-    <form action="/films/edit" method="post">
+    <form action="/films/edit?film_id=<%= inputFilmId %>" method="post">
       <label for="filmTitleInput"
         >Title:
         <input
@@ -71,7 +73,5 @@
       <button type="submit">Edit Film</button>
     </form>
     <% } %>
-
-    <%- include("../partials/errors") %>
   </body>
 </html>
