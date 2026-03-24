@@ -51,11 +51,20 @@ async function searchFilms(searchTerm, sort, order) {
 
   // include year search?
   const { rows } = await pool.query(
-    `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE title ILIKE $1 OR release_year::text ILIKE $1 ORDER BY ${sort} ${order}`,
+    `SELECT *, films.id as film_id FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE title ILIKE $1 OR release_year::text ILIKE $1 ORDER BY ${sort} ${order}`,
     [`%${searchTerm}%`],
   );
 
   return rows;
+}
+
+async function getEditFilm(film_id) {
+  const { rows } = await pool.query(
+    `SELECT *, films.id as film_id FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE films.id = $1`,
+    [film_id],
+  );
+
+  return rows[0];
 }
 
 // ============================================================================================
@@ -182,6 +191,7 @@ module.exports = {
   getAllFilms,
   addFilm,
   searchFilms,
+  getEditFilm,
   getAllDirectors,
   getAllDirectorFilms,
   addDirector,

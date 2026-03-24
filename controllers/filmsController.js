@@ -108,9 +108,26 @@ const getSearchFilms = [
   },
 ];
 
+async function getEditFilm(req, res) {
+  const { film_id } = req.query;
+  const genres = await queries.getAllGenres();
+  const directors = await queries.getAllDirectors();
+  const film = await queries.getEditFilm(film_id);
+  const inputData = {}; // refactor data into here?
+
+  res.render("films/editFilm", {
+    film: film,
+    inputFilmId: film_id,
+    genres: genres,
+    directors: directors,
+    inputData: inputData,
+  });
+}
+
 module.exports = {
   getAllFilms,
   getAddFilm,
   postAddFilm,
   getSearchFilms,
+  getEditFilm,
 };

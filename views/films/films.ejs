@@ -96,7 +96,6 @@
       </thead>
       <tbody>
         <% locals.films.forEach((film) => { %>
-        <% console.log(film) %>
         <tr>
           <td><%= film.title %></td>
           <td><%= film.release_year %></td>
@@ -113,7 +112,7 @@
             >
           </td>
           <td class="actions-cell">
-            <a href="/films/edit?id=<%= film.film_id %>">Edit</a> |
+            <a href="/films/edit?film_id=<%= film.film_id %>">Edit</a> |
             <a href="">Delete</a>
           </td>
         </tr>
