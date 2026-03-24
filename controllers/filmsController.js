@@ -26,7 +26,7 @@ const searchFilmValidator = [
 ];
 
 async function getAllFilms(req, res) {
-  const { sort, order } = req.query;
+  const { sort, order } = req.query; // if undefined, fix in query sanitization
   const films = await queries.getAllFilms(sort, order);
 
   res.render("films/films", { films: films });
@@ -48,6 +48,7 @@ const postAddFilm = [
   addFilmValidator,
   async function postAddFilm(req, res) {
     const errors = validationResult(req);
+    console.log(errors);
 
     if (!errors.isEmpty()) {
       const genres = await queries.getAllGenres();
@@ -89,14 +90,13 @@ const getSearchFilms = [
     if (!errors.isEmpty()) {
       const films = await queries.getAllFilms();
 
-      return res.render("flims/films", {
+      return res.render("films/films", {
         films: films,
         errors: errors.array(),
       });
     }
 
-    const { sort, order } = req.query;
-    console.log(sort, order);
+    const { sort, order } = req.query; // if undefined, fix in query sanitization
     const { searchTerm } = matchedData(req);
 
     const searchFilms = await queries.searchFilms(searchTerm, sort, order);

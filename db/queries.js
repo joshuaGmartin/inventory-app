@@ -17,7 +17,7 @@ async function getAllFilms(sort, order) {
   } else order = "asc";
 
   const { rows } = await pool.query(
-    `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id ORDER BY ${sort} ${order}`,
+    `SELECT *, films.id as film_id FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id ORDER BY ${sort} ${order}`,
   );
 
   return rows;
@@ -108,6 +108,26 @@ async function addDirector(directorInput, educationInput, oscarsInput) {
   );
 }
 
+async function searchDirectors(searchTerm, sort, order) {
+  // sanitize inputs
+  if (sort) {
+    const allowedSorts = ["dir_name", "school", "dir_oscars"];
+    if (!allowedSorts.includes(sort)) sort = "dir_name";
+  } else sort = "dir_name";
+
+  if (order) {
+    const allowedOrders = ["asc", "desc"];
+    if (!allowedOrders.includes(order.toLowerCase())) order = "asc";
+  } else order = "asc";
+
+  const { rows } = await pool.query(
+    `SELECT * FROM directors WHERE dir_name ILIKE $1 OR school ILIKE $1 ORDER BY ${sort} ${order}`,
+    [`%${searchTerm}%`],
+  );
+
+  return rows;
+}
+
 // ============================================================================================
 // Genres
 // ============================================================================================
@@ -165,6 +185,7 @@ module.exports = {
   getAllDirectors,
   getAllDirectorFilms,
   addDirector,
+  searchDirectors,
   getAllGenres,
   getAllGenreFilms,
   addGenre,

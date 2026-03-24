@@ -10,6 +10,7 @@
     <%- include("../partials/header", {title: "All Films"}) %>
 
     <%- include("../partials/errors") %>
+
     <form action="/films/search" class="search-form" method="get">
       <label for="searchTerm"
         ><input type="text" name="searchTerm" id="searchTerm" required
@@ -85,10 +86,17 @@
               </div>
             </div>
           </th>
+
+          <th class="table-header" id="table-header-actions">
+            <div class="inner-th">
+              <span class="header-title">Actions</span>
+            </div>
+          </th>
         </tr>
       </thead>
       <tbody>
         <% locals.films.forEach((film) => { %>
+        <% console.log(film) %>
         <tr>
           <td><%= film.title %></td>
           <td><%= film.release_year %></td>
@@ -103,6 +111,10 @@
               href="/genres/films?genre_name=<%= film.genre_name %>&sort=title&order=asc"
               ><%= film.genre_name %></a
             >
+          </td>
+          <td class="actions-cell">
+            <a href="/films/edit?id=<%= film.film_id %>">Edit</a> |
+            <a href="">Delete</a>
           </td>
         </tr>
         <% }) %>

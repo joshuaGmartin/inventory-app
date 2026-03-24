@@ -12,7 +12,12 @@
     <%- include("../partials/errors") %>
     <form action="/films/search" class="search-form" method="get">
       <label for="searchTerm"
-        ><input type="text" name="searchTerm" id="searchTerm" required
+        ><input
+          type="text"
+          name="searchTerm"
+          id="searchTerm"
+          value="<%= locals.searchTerm %>"
+          required
       /></label>
       <button type="submit">Search</button>
     </form>

@@ -2,18 +2,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>All Directors</title>
+    <title>Directors including "<%= locals.searchTerm %>"...</title>
     <link rel="stylesheet" href="/style.css" />
     <script type="module" src="/js/main.js" defer></script>
   </head>
   <body>
-    <%- include("../partials/header", {title: "All Directors"}) %>
+    <%- include("../partials/header", {title: `Directors including "${locals.searchTerm}"...`}) %>
 
     <%- include("../partials/errors") %>
 
     <form action="/directors/search" class="search-form" method="get">
       <label for="searchTerm"
-        ><input type="text" name="searchTerm" id="searchTerm" required
+        ><input
+          type="text"
+          name="searchTerm"
+          id="searchTerm"
+          value="<%= locals.searchTerm %>"
+          required
       /></label>
       <button type="submit">Search</button>
     </form>
@@ -77,7 +82,7 @@
         </tr>
       </thead>
       <tbody>
-        <% locals.directors.forEach((director) => { %>
+        <% locals.searchDirectors.forEach((director) => { %>
         <tr>
           <td>
             <a

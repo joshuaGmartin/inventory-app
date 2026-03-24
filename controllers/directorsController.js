@@ -1,7 +1,12 @@
 const queries = require("../db/queries");
-const { body, validationResult, matchedData } = require("express-validator");
+const {
+  body,
+  query,
+  validationResult,
+  matchedData,
+} = require("express-validator");
 
-const validator = [
+const addDirectorValidator = [
   body("directorInput").trim().notEmpty().withMessage("Must include name"),
   body("educationInput")
     .trim()
@@ -17,15 +22,19 @@ const validator = [
     .withMessage("Cannot have negative oscars"),
 ];
 
+const searchDirectorValidator = [
+  query("searchTerm").trim().notEmpty().withMessage("Must include search term"),
+];
+
 async function getAllDirectors(req, res) {
-  const { sort, order } = req.query;
+  const { sort, order } = req.query; // if undefined, fix in query sanitization
   const directors = await queries.getAllDirectors(sort, order);
 
   res.render("directors/directors", { directors: directors });
 }
 
 async function getAllDirectorFilms(req, res) {
-  const { dir_name, sort, order } = req.query;
+  const { dir_name, sort, order } = req.query; // if undefined, fix in query sanitization
   const directorFilms = await queries.getAllDirectorFilms(
     dir_name,
     sort,
@@ -47,7 +56,7 @@ async function getAddDirector(req, res) {
 }
 
 const postAddDirector = [
-  validator,
+  addDirectorValidator,
   async (req, res) => {
     const errors = validationResult(req);
 
@@ -71,9 +80,40 @@ const postAddDirector = [
   },
 ];
 
+const getSearchDirectors = [
+  searchDirectorValidator,
+  async function (req, res) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      const directors = await queries.getAllDirectors();
+
+      return res.render("directors/directors", {
+        directors: directors,
+        errors: errors.array(),
+      });
+    }
+
+    const { sort, order } = req.query; // if undefined, fix in query sanitization
+    const { searchTerm } = matchedData(req);
+
+    const searchDirectors = await queries.searchDirectors(
+      searchTerm,
+      sort,
+      order,
+    );
+
+    res.render("directors/searchDirectors", {
+      searchDirectors: searchDirectors,
+      searchTerm: searchTerm,
+    });
+  },
+];
+
 module.exports = {
   getAllDirectors,
   getAllDirectorFilms,
   getAddDirector,
   postAddDirector,
+  getSearchDirectors,
 };
