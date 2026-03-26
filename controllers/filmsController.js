@@ -48,7 +48,6 @@ const postAddFilm = [
   addEditFilmValidator,
   async function postAddFilm(req, res) {
     const errors = validationResult(req);
-    console.log(errors);
 
     if (!errors.isEmpty()) {
       const genres = await queries.getAllGenres();

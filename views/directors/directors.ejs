@@ -9,14 +9,17 @@
   <body>
     <%- include("../partials/header", {title: "All Directors"}) %>
 
-    <%- include("../partials/errors") %>
+    <div class="sub-header">
+      <%- include("../partials/errors") %>
+      <form action="/directors/search" class="search-form" method="get">
+        <label for="searchTerm"
+          ><input type="text" name="searchTerm" id="searchTerm" required
+        /></label>
+        <button type="submit">Search</button>
+      </form>
 
-    <form action="/directors/search" class="search-form" method="get">
-      <label for="searchTerm"
-        ><input type="text" name="searchTerm" id="searchTerm" required
-      /></label>
-      <button type="submit">Search</button>
-    </form>
+      <a href="/directors/add">Add Director</a>
+    </div>
 
     <table border="1" cellpadding="5" cellspacing="0">
       <thead>

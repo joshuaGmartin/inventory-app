@@ -174,6 +174,17 @@ async function searchDirectors(searchTerm, sort, order) {
   return rows;
 }
 
+async function getEditDirector(director_id) {
+  // no non ints
+  if (!Number.isInteger(Number(director_id))) return undefined;
+
+  const { rows } = await pool.query(`SELECT * FROM directors WHERE id = $1`, [
+    director_id,
+  ]);
+
+  return rows[0];
+}
+
 // ============================================================================================
 // Genres
 // ============================================================================================
@@ -237,6 +248,7 @@ module.exports = {
   getAllDirectorFilms,
   addDirector,
   searchDirectors,
+  getEditDirector,
   getAllGenres,
   getAllGenreFilms,
   addGenre,

@@ -1,19 +1,11 @@
 <td class="actions-cell">
   <div class="actions-wrapper">
     <form action="/directors/edit" method="get">
-      <input
-        type="hidden"
-        name="director_id"
-        value="<%= director.director_id %>"
-      />
+      <input type="hidden" name="director_id" value="<%= director.id %>" />
       <button type="submit">Edit</button>
     </form>
     <form action="/directors/delete" method="post">
-      <input
-        type="hidden"
-        name="director_id"
-        value="<%= director.director_id %>"
-      />
+      <input type="hidden" name="director_id" value="<%= director.id %>" />
       <button
         type="submit"
         onclick="

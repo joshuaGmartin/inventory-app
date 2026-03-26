@@ -6,6 +6,10 @@ header {
   margin-bottom: 1rem;
 }
 
+.sub-header {
+  margin-bottom: 1rem;
+}
+
 .database-tools {
   line-height: 1.5;
 }

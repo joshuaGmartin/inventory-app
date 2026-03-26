@@ -7,5 +7,7 @@ directorsRouter.get("/films", directorsController.getAllDirectorFilms);
 directorsRouter.get("/add", directorsController.getAddDirector);
 directorsRouter.post("/add", directorsController.postAddDirector);
 directorsRouter.get("/search", directorsController.getSearchDirectors);
+directorsRouter.get("/edit", directorsController.getEditDirector);
+directorsRouter.post("/edit", directorsController.postEditDirector);
 
 module.exports = directorsRouter;

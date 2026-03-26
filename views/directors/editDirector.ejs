@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Director (id: <%= locals.inputDirectorId %>)</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/js/main.js" defer></script>
+  </head>
+  <body>
+    <%- include("../partials/header", {title: `Edit Director (id: ${locals.inputDirectorId})`}) %>
+    <%- include("../partials/errors") %>
+    <form
+      action="/directors/edit?director_id=<%= inputDirectorId %>"
+      method="post"
+    >
+      <label for="directorInput"
+        >Name:
+        <input
+          type="text"
+          name="directorInput"
+          id="directorInput"
+          placeholder="Enter director name..."
+          value="<%= inputData.directorInput || director.dir_name %>"
+          required
+      /></label>
+
+      <label for="educationInput"
+        >Education:
+        <input
+          type="text"
+          name="educationInput"
+          id="educationInput"
+          placeholder="Enter film school..."
+          value="<%= inputData.educationInput || director.school %>"
+          required
+      /></label>
+
+      <label for="oscarsInput"
+        >Number of (director) oscars received:
+        <input
+          type="number"
+          name="oscarsInput"
+          id="oscarsInput"
+          min="0"
+          placeholder="Enter number of oscars..."
+          value="<%= inputData.oscarsInput || director.dir_oscars %>"
+          required
+      /></label>
+
+      <button type="submit">Edit Director</button>
+    </form>
+  </body>
+</html>

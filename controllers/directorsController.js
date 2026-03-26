@@ -6,7 +6,7 @@ const {
   matchedData,
 } = require("express-validator");
 
-const addDirectorValidator = [
+const addEditDirectorValidator = [
   body("directorInput").trim().notEmpty().withMessage("Must include name"),
   body("educationInput")
     .trim()
@@ -56,7 +56,7 @@ async function getAddDirector(req, res) {
 }
 
 const postAddDirector = [
-  addDirectorValidator,
+  addEditDirectorValidator,
   async (req, res) => {
     const errors = validationResult(req);
 
@@ -110,10 +110,70 @@ const getSearchDirectors = [
   },
 ];
 
+async function getEditDirector(req, res) {
+  const { director_id } = req.query;
+
+  const director = await queries.getEditDirector(director_id);
+  const inputData = {}; // refactor data into here?
+
+  res.render("directors/editDirector", {
+    director: director,
+    inputDirectorId: director_id,
+    inputData: inputData,
+  });
+}
+
+const postEditDirector = [
+  addEditDirectorValidator,
+  async (req, res) => {
+    const errors = validationResult(req);
+    const { director_id } = req.query;
+
+    console.log(director_id);
+
+    if (!errors.isEmpty()) {
+      const director = {};
+      const inputData = {
+        directorInput: req.body.directorInput,
+        educationInput: req.body.educationInput,
+        oscarsInput: req.body.oscarsInput,
+      };
+
+      return res.render("directors/editDirector", {
+        director: director,
+        inputDirectorId: director_id,
+        inputData: inputData,
+        errors: errors.array(),
+      });
+    }
+
+    // const { filmTitleInput, releaseYearInput, directorInput, genreInput } =
+    //   matchedData(req);
+
+    // await queries.editFilm(
+    //   film_id,
+    //   filmTitleInput,
+    //   releaseYearInput,
+    //   directorInput,
+    //   genreInput,
+    // );
+
+    // res.redirect("/films");
+  },
+];
+
+// async function postDeleteFilm(req, res) {
+//   await queries.postDeleteFilm(req.body.film_id);
+
+//   res.redirect("/films");
+// }
+
 module.exports = {
   getAllDirectors,
   getAllDirectorFilms,
   getAddDirector,
   postAddDirector,
   getSearchDirectors,
+  getEditDirector,
+  postEditDirector,
 };
