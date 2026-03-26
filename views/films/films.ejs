@@ -94,6 +94,7 @@
           </th>
         </tr>
       </thead>
+
       <tbody>
         <% locals.films.forEach((film) => { %>
         <tr>
@@ -111,10 +112,7 @@
               ><%= film.genre_name %></a
             >
           </td>
-          <td class="actions-cell">
-            <a href="/films/edit?film_id=<%= film.film_id %>">Edit</a> |
-            <a href="">Delete</a>
-          </td>
+          <%- include("../partials/table/actionsCell", {film: film}) %>
         </tr>
         <% }) %>
       </tbody>

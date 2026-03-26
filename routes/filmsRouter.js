@@ -8,5 +8,6 @@ filmsRouter.post("/add", filmsController.postAddFilm);
 filmsRouter.get("/search", filmsController.getSearchFilms);
 filmsRouter.get("/edit", filmsController.getEditFilm);
 filmsRouter.post("/edit", filmsController.postEditFilm);
+filmsRouter.post("/delete", filmsController.postDeleteFilm);
 
 module.exports = filmsRouter;

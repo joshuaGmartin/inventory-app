@@ -34,6 +34,12 @@ table {
     cursor: pointer;
   }
 
+  thead th {
+    position: sticky;
+    top: 0;
+    background-color: #ccd9ec;
+  }
+
   .inner-th {
     display: flex;
     gap: 0.5rem;
@@ -52,6 +58,28 @@ table {
 
         &.selected-arrow {
           outline: black 2px solid;
+        }
+      }
+    }
+  }
+
+  tr:nth-child(even) {
+    background-color: #ccd9ec;
+  }
+
+  td {
+    &.actions-cell {
+      .actions-wrapper {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+
+        form {
+          margin: 0;
+
+          button:hover {
+            cursor: pointer;
+          }
         }
       }
     }

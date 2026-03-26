@@ -63,6 +63,9 @@ async function searchFilms(searchTerm, sort, order) {
 }
 
 async function getEditFilm(film_id) {
+  // no non ints
+  if (!Number.isInteger(Number(film_id))) return undefined;
+
   const { rows } = await pool.query(
     `SELECT *, films.id as film_id FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE films.id = $1`,
     [film_id],
@@ -89,6 +92,10 @@ async function editFilm(
     `,
     [filmTitleInput, releaseYearInput, directorInput, genreInput, film_id],
   );
+}
+
+async function postDeleteFilm(film_id) {
+  await pool.query(`DELETE FROM films where id = $1`, [film_id]);
 }
 
 // ============================================================================================
@@ -225,6 +232,7 @@ module.exports = {
   searchFilms,
   getEditFilm,
   editFilm,
+  postDeleteFilm,
   getAllDirectors,
   getAllDirectorFilms,
   addDirector,
