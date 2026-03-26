@@ -1,9 +1,9 @@
 import "./tableSort.js";
 import "./eventListeners.js";
 
-const searchBar = document.getElementById("searchTerm");
+const inputElm = document.querySelector("input");
 
-if (searchBar) {
-  searchBar.focus();
-  searchBar.setSelectionRange(0, searchBar.value.length);
+if (inputElm) {
+  inputElm.focus();
+  inputElm.setSelectionRange(0, inputElm.value.length);
 }

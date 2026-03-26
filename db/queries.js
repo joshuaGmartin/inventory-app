@@ -138,7 +138,7 @@ async function getAllDirectorFilms(dir_name, sort, order) {
   const sortFormatted = sort === "release_year" ? sort : `LOWER(${sort})`;
 
   const { rows } = await pool.query(
-    `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE dir_name = '${dir_name}' ORDER BY ${sortFormatted} ${order}`,
+    `SELECT *, films.id as film_id FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE dir_name = '${dir_name}' ORDER BY ${sortFormatted} ${order}`,
   );
 
   return rows;
@@ -212,7 +212,7 @@ async function getAllGenreFilms(genre_name, sort, order) {
   const sortFormatted = sort === "release_year" ? sort : `LOWER(${sort})`;
 
   const { rows } = await pool.query(
-    `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE genre_name = '${genre_name}' ORDER BY ${sortFormatted} ${order}`,
+    `SELECT *, films.id as film_id FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE genre_name = '${genre_name}' ORDER BY ${sortFormatted} ${order}`,
   );
 
   return rows;

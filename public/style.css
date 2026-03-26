@@ -58,6 +58,7 @@ table {
 
         &.selected-arrow {
           outline: black 2px solid;
+          background-color: white;
         }
       }
     }

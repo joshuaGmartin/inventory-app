@@ -65,6 +65,12 @@
               </div>
             </div>
           </th>
+
+          <th class="table-header" id="table-header-actions">
+            <div class="inner-th">
+              <span class="header-title">Actions</span>
+            </div>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -78,6 +84,7 @@
               ><%= directorFilm.genre_name %></a
             >
           </td>
+          <%- include("../partials/table/actionsCell_film", {film: directorFilm}) %>
         </tr>
         <% }) %>
       </tbody>

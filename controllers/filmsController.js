@@ -78,7 +78,7 @@ const postAddFilm = [
       genreInput,
     );
 
-    res.redirect("/");
+    res.redirect("/films");
   },
 ];
 
@@ -110,7 +110,6 @@ const getSearchFilms = [
 
 async function getEditFilm(req, res) {
   const { film_id } = req.query;
-  console.log(film_id);
   const genres = await queries.getAllGenres();
   const directors = await queries.getAllDirectors();
   const film = await queries.getEditFilm(film_id);
@@ -163,7 +162,7 @@ const postEditFilm = [
       genreInput,
     );
 
-    res.redirect("/");
+    res.redirect("/films");
   },
 ];
 

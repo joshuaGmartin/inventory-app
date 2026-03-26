@@ -1,0 +1,29 @@
+<td class="actions-cell">
+  <div class="actions-wrapper">
+    <form action="/directors/edit" method="get">
+      <input
+        type="hidden"
+        name="director_id"
+        value="<%= director.director_id %>"
+      />
+      <button type="submit">Edit</button>
+    </form>
+    <form action="/directors/delete" method="post">
+      <input
+        type="hidden"
+        name="director_id"
+        value="<%= director.director_id %>"
+      />
+      <button
+        type="submit"
+        onclick="
+          return confirm(
+            'Are you sure you want to delete director &quot;<%= director.dir_name %>&quot; (id: <%= director.id %>)?',
+          );
+        "
+      >
+        Delete
+      </button>
+    </form>
+  </div>
+</td>
