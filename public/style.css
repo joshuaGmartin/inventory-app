@@ -30,15 +30,15 @@ form {
 }
 
 table {
-  th .inner-th {
+  th:not(#table-header-actions):hover {
+    cursor: pointer;
+  }
+
+  .inner-th {
     display: flex;
     gap: 0.5rem;
     justify-content: center;
     align-items: center;
-
-    &:hover {
-      cursor: pointer;
-    }
 
     .arrow-container {
       min-width: max-content;

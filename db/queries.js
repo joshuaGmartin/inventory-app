@@ -16,8 +16,10 @@ async function getAllFilms(sort, order) {
     if (!allowedOrders.includes(order.toLowerCase())) order = "asc";
   } else order = "asc";
 
+  const sortFormatted = sort === "release_year" ? sort : `LOWER(${sort})`;
+
   const { rows } = await pool.query(
-    `SELECT *, films.id as film_id FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id ORDER BY LOWER(${sort}) ${order}`,
+    `SELECT *, films.id as film_id FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id ORDER BY ${sortFormatted} ${order}`,
   );
 
   return rows;
@@ -49,9 +51,11 @@ async function searchFilms(searchTerm, sort, order) {
     if (!allowedOrders.includes(order.toLowerCase())) order = "asc";
   } else order = "asc";
 
+  const sortFormatted = sort === "release_year" ? sort : `LOWER(${sort})`;
+
   // include year search?
   const { rows } = await pool.query(
-    `SELECT *, films.id as film_id FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE title ILIKE $1 OR release_year::text ILIKE $1 ORDER BY LOWER(${sort}) ${order}`,
+    `SELECT *, films.id as film_id FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE title ILIKE $1 OR release_year::text ILIKE $1 ORDER BY ${sortFormatted} ${order}`,
     [`%${searchTerm}%`],
   );
 
@@ -103,8 +107,10 @@ async function getAllDirectors(sort, order) {
     if (!allowedOrders.includes(order.toLowerCase())) order = "asc";
   } else order = "asc";
 
+  const sortFormatted = sort === "dir_oscars" ? sort : `LOWER(${sort})`;
+
   const { rows } = await pool.query(
-    `SELECT * FROM directors ORDER BY LOWER(${sort}) ${order}`,
+    `SELECT * FROM directors ORDER BY ${sortFormatted} ${order}`,
   );
 
   return rows;
@@ -122,8 +128,10 @@ async function getAllDirectorFilms(dir_name, sort, order) {
     if (!allowedOrders.includes(order.toLowerCase())) order = "asc";
   } else order = "asc";
 
+  const sortFormatted = sort === "release_year" ? sort : `LOWER(${sort})`;
+
   const { rows } = await pool.query(
-    `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE dir_name = '${dir_name}' ORDER BY LOWER(${sort}) ${order}`,
+    `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE dir_name = '${dir_name}' ORDER BY ${sortFormatted} ${order}`,
   );
 
   return rows;
@@ -149,8 +157,10 @@ async function searchDirectors(searchTerm, sort, order) {
     if (!allowedOrders.includes(order.toLowerCase())) order = "asc";
   } else order = "asc";
 
+  const sortFormatted = sort === "dir_oscars" ? sort : `LOWER(${sort})`;
+
   const { rows } = await pool.query(
-    `SELECT * FROM directors WHERE dir_name ILIKE $1 OR school ILIKE $1 ORDER BY LOWER(${sort}) ${order}`,
+    `SELECT * FROM directors WHERE dir_name ILIKE $1 OR school ILIKE $1 ORDER BY ${sortFormatted} ${order}`,
     [`%${searchTerm}%`],
   );
 
@@ -192,8 +202,10 @@ async function getAllGenreFilms(genre_name, sort, order) {
     if (!allowedOrders.includes(order.toLowerCase())) order = "asc";
   } else order = "asc";
 
+  const sortFormatted = sort === "release_year" ? sort : `LOWER(${sort})`;
+
   const { rows } = await pool.query(
-    `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE genre_name = '${genre_name}' ORDER BY LOWER(${sort}) ${order}`,
+    `SELECT * FROM films JOIN directors ON director_id = directors.id JOIN genres ON genre_id = genres.id WHERE genre_name = '${genre_name}' ORDER BY ${sortFormatted} ${order}`,
   );
 
   return rows;

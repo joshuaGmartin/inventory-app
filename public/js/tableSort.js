@@ -1,6 +1,6 @@
 const params = new URLSearchParams(window.location.search);
-const sort = params.get("sort") || "title";
-const order = params.get("order") || "asc";
+let sort = params.get("sort") || "title";
+let order = params.get("order") || "asc";
 const path = window.location.pathname;
 
 // sanitize inputs for paths
@@ -50,7 +50,7 @@ if (path === "/films" || path === "/films/search") {
 // =========================================================================================================
 // /directors
 // =========================================================================================================
-if (path === "/directors") {
+if (path === "/directors" || path === "/directors/search") {
   const thDirector = document.getElementById("table-header-director");
   const thEducation = document.getElementById("table-header-education");
   const thOscars = document.getElementById("table-header-oscars");
