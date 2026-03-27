@@ -1,13 +1,9 @@
-/* 
-
-drop table directors, films, genres;
-
-*/
-
 const { Client } = require("pg");
 require("dotenv").config();
 
 const SQL = ` 
+    DROP TABLE IF EXISTS films, directors, genres;
+
     CREATE TABLE IF NOT EXISTS films (
         id SERIAL PRIMARY KEY,
         title TEXT,
@@ -125,7 +121,8 @@ const SQL = `
         ('Birdman', 39, 2014, 2),
         ('Nope', 40, 2022, 3),
         ('Get Out', 40, 2017, 3),
-        ('Us', 40, 2019, 3);
+        ('Us', 40, 2019, 3),
+        ('Mason Storm Unleashed the Fury', 41, 2020, 8);
 
 
     INSERT INTO genres (genre_name) VALUES
@@ -135,7 +132,8 @@ const SQL = `
         ('Action'),
         ('Sci-Fi'),
         ('Comedy'),
-        ('Fantasy');
+        ('Fantasy'), 
+        ('Indie');
 
 
     INSERT INTO directors (dir_name, school, dir_oscars) VALUES
@@ -178,10 +176,12 @@ const SQL = `
         ('Guillermo del Toro', 'Self-taught', 1),
         ('Alfonso Cuarón', 'UNAM', 2),
         ('Alejandro González Iñárritu', 'Self-taught', 2),
-        ('Jordan Peele', 'Self-taught', 0);
+        ('Jordan Peele', 'Self-taught', 0),
+        ('Jeremiah Kent and Joshua Martin', 'Self-taught', 0)
+        ;
     `;
 
-async function main() {
+async function resetData() {
   console.log("seeding...");
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
@@ -192,4 +192,6 @@ async function main() {
   console.log("end");
 }
 
-main();
+module.exports = {
+  resetData,
+};

@@ -15,6 +15,14 @@
           <li><a href="/directors/add">Add Director</a></li>
           <li><a href="/genres/add">Add Genre</a></li>
         </ul>
+        <form action="/reset" method="post">
+          <button
+            type="submit"
+            onclick="confirm('This will reseed all data. Are you sure?')"
+          >
+            Reset Database
+          </button>
+        </form>
       </div>
     </main>
   </body>

@@ -284,7 +284,7 @@ async function postEditGenre(genre_id, genreInput) {
 
 async function postDeleteGenre(genre_id) {
   await pool.query(`DELETE FROM films WHERE genre_id = $1`, [genre_id]);
-  await pool.query(`DELETE FROM directors WHERE id = $1`, [genre_id]);
+  await pool.query(`DELETE FROM genres WHERE id = $1`, [genre_id]);
 }
 
 module.exports = {

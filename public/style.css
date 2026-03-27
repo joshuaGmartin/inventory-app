@@ -90,3 +90,7 @@ table {
     }
   }
 }
+
+button {
+  max-width: fit-content;
+}
