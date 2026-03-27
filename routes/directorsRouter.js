@@ -9,5 +9,6 @@ directorsRouter.post("/add", directorsController.postAddDirector);
 directorsRouter.get("/search", directorsController.getSearchDirectors);
 directorsRouter.get("/edit", directorsController.getEditDirector);
 directorsRouter.post("/edit", directorsController.postEditDirector);
+directorsRouter.post("/delete", directorsController.postDeleteDirector);
 
 module.exports = directorsRouter;

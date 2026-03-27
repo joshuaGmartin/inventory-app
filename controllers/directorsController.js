@@ -76,7 +76,7 @@ const postAddDirector = [
     const { directorInput, educationInput, oscarsInput } = matchedData(req);
     await queries.addDirector(directorInput, educationInput, oscarsInput);
 
-    res.redirect("/");
+    res.redirect("/directors");
   },
 ];
 
@@ -129,8 +129,6 @@ const postEditDirector = [
     const errors = validationResult(req);
     const { director_id } = req.query;
 
-    console.log(director_id);
-
     if (!errors.isEmpty()) {
       const director = {};
       const inputData = {
@@ -147,26 +145,24 @@ const postEditDirector = [
       });
     }
 
-    // const { filmTitleInput, releaseYearInput, directorInput, genreInput } =
-    //   matchedData(req);
+    const { directorInput, educationInput, oscarsInput } = matchedData(req);
 
-    // await queries.editFilm(
-    //   film_id,
-    //   filmTitleInput,
-    //   releaseYearInput,
-    //   directorInput,
-    //   genreInput,
-    // );
+    await queries.postEditDirector(
+      director_id,
+      directorInput,
+      educationInput,
+      oscarsInput,
+    );
 
-    // res.redirect("/films");
+    res.redirect("/directors");
   },
 ];
 
-// async function postDeleteFilm(req, res) {
-//   await queries.postDeleteFilm(req.body.film_id);
+async function postDeleteDirector(req, res) {
+  await queries.postDeleteDirector(req.body.director_id);
 
-//   res.redirect("/films");
-// }
+  res.redirect("/directors");
+}
 
 module.exports = {
   getAllDirectors,
@@ -176,4 +172,5 @@ module.exports = {
   getSearchDirectors,
   getEditDirector,
   postEditDirector,
+  postDeleteDirector,
 };

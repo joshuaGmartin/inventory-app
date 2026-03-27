@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Genre (id: <%= locals.inputGenreId %>)</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/js/main.js" defer></script>
+  </head>
+  <body>
+    <%- include("../partials/header", {title: `Edit Genre (id: ${locals.inputGenreId})`}) %>
+
+    <% if (!locals.genre) { %>
+    Genre data not found
+    <% } else { %>
+    <%- include("../partials/errors") %>
+    <form action="/genres/edit?genre_id=<%= inputGenreId %>" method="post">
+      <label for="genreInput"
+        >Genre:
+        <input
+          type="text"
+          name="genreInput"
+          id="genreInput"
+          placeholder="Enter genre..."
+          value="<%= inputData.genreInput || genre.genre_name %>"
+          required
+      /></label>
+
+      <button type="submit">Edit Genre</button>
+    </form>
+    <% } %>
+  </body>
+</html>

@@ -74,7 +74,7 @@ async function getEditFilm(film_id) {
   return rows[0];
 }
 
-async function editFilm(
+async function postEditFilm(
   film_id,
   filmTitleInput,
   releaseYearInput,
@@ -185,6 +185,29 @@ async function getEditDirector(director_id) {
   return rows[0];
 }
 
+async function postEditDirector(
+  director_id,
+  directorInput,
+  educationInput,
+  oscarsInput,
+) {
+  await pool.query(
+    `
+    UPDATE directors
+    SET dir_name = $1,
+        school = $2,
+        dir_oscars = $3
+    WHERE id = $4
+    `,
+    [directorInput, educationInput, oscarsInput, director_id],
+  );
+}
+
+async function postDeleteDirector(director_id) {
+  await pool.query(`DELETE FROM films WHERE director_id = $1`, [director_id]);
+  await pool.query(`DELETE FROM directors WHERE id = $1`, [director_id]);
+}
+
 // ============================================================================================
 // Genres
 // ============================================================================================
@@ -237,19 +260,56 @@ async function addGenre(genreInput) {
   );
 }
 
+async function getEditGenre(genre_id) {
+  // no non ints
+  if (!Number.isInteger(Number(genre_id))) return undefined;
+
+  const { rows } = await pool.query(`SELECT * FROM genres WHERE id = $1`, [
+    genre_id,
+  ]);
+
+  return rows[0];
+}
+
+async function postEditGenre(genre_id, genreInput) {
+  await pool.query(
+    `
+    UPDATE genres 
+    SET genre_name = $1
+    WHERE id = $2
+    `,
+    [genreInput, genre_id],
+  );
+}
+
+async function postDeleteGenre(genre_id) {
+  await pool.query(`DELETE FROM films WHERE genre_id = $1`, [genre_id]);
+  await pool.query(`DELETE FROM directors WHERE id = $1`, [genre_id]);
+}
+
 module.exports = {
+  //films
   getAllFilms,
   addFilm,
   searchFilms,
   getEditFilm,
-  editFilm,
+  postEditFilm,
   postDeleteFilm,
+
+  //directors
   getAllDirectors,
   getAllDirectorFilms,
   addDirector,
   searchDirectors,
   getEditDirector,
+  postEditDirector,
+  postDeleteDirector,
+
+  //genres
   getAllGenres,
   getAllGenreFilms,
   addGenre,
+  getEditGenre,
+  postEditGenre,
+  postDeleteGenre,
 };

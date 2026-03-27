@@ -8,6 +8,10 @@
   </head>
   <body>
     <%- include("../partials/header", {title: `Edit Director (id: ${locals.inputDirectorId})`}) %>
+
+    <% if (!locals.director) { %>
+    Director data not found
+    <% } else { %>
     <%- include("../partials/errors") %>
     <form
       action="/directors/edit?director_id=<%= inputDirectorId %>"
@@ -49,5 +53,6 @@
 
       <button type="submit">Edit Director</button>
     </form>
+    <% } %>
   </body>
 </html>

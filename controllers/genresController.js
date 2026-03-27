@@ -49,13 +49,62 @@ const postAddGenre = [
     const { genreInput } = matchedData(req);
     await queries.addGenre(genreInput);
 
-    res.redirect("/");
+    res.redirect("/genres");
   },
 ];
+
+async function getEditGenre(req, res) {
+  const { genre_id } = req.query;
+
+  const genre = await queries.getEditGenre(genre_id);
+  const inputData = {}; // refactor data into here?
+
+  res.render("genres/editGenre", {
+    genre: genre,
+    inputGenreId: genre_id,
+    inputData: inputData,
+  });
+}
+
+const postEditGenre = [
+  validator,
+  async (req, res) => {
+    const errors = validationResult(req);
+    const { genre_id } = req.query;
+
+    if (!errors.isEmpty()) {
+      const genre = {};
+      const inputData = {
+        genreInput: req.body.genreInput,
+      };
+
+      return res.render("genres/editGenre", {
+        genre: genre,
+        inputGenreId: genre_id,
+        inputData: inputData,
+        errors: errors.array(),
+      });
+    }
+
+    const { genreInput } = matchedData(req);
+
+    await queries.postEditGenre(genre_id, genreInput);
+
+    res.redirect("/genres");
+  },
+];
+
+async function postDeleteGenre(req, res) {
+  await queries.postDeleteGenre(req.body.genre_id);
+  res.redirect("/genres");
+}
 
 module.exports = {
   getAllGenres,
   getAllGenreFilms,
   getAddGenre,
   postAddGenre,
+  getEditGenre,
+  postEditGenre,
+  postDeleteGenre,
 };

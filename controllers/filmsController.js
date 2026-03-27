@@ -153,7 +153,7 @@ const postEditFilm = [
     const { filmTitleInput, releaseYearInput, directorInput, genreInput } =
       matchedData(req);
 
-    await queries.editFilm(
+    await queries.postEditFilm(
       film_id,
       filmTitleInput,
       releaseYearInput,
