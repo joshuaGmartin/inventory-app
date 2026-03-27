@@ -11,17 +11,21 @@
 
     <%- include("../partials/errors") %>
 
-    <form action="/directors/search" class="search-form" method="get">
-      <label for="searchTerm"
-        ><input
-          type="text"
-          name="searchTerm"
-          id="searchTerm"
-          value="<%= locals.searchTerm %>"
-          required
-      /></label>
-      <button type="submit">Search</button>
-    </form>
+    <div class="sub-header">
+      <form action="/directors/search" class="search-form" method="get">
+        <label for="searchTerm"
+          ><input
+            type="text"
+            name="searchTerm"
+            id="searchTerm"
+            value="<%= locals.searchTerm %>"
+            required
+        /></label>
+        <button type="submit">Search</button>
+      </form>
+
+      <a href="/directors/add">Add Director</a>
+    </div>
 
     <table border="1" cellpadding="5" cellspacing="0">
       <thead>
@@ -31,12 +35,12 @@
               <span class="header-title">Director</span>
               <div class="arrow-container">
                 <a
-                  href="/directors/search?searchTerm=<%= searchTerm %>&sort=dir_name&order=asc"
+                  href="/directors?sort=dir_name&order=asc"
                   class="arrow up-arrow"
                   >↑</a
                 >
                 <a
-                  href="/directors/search?searchTerm=<%= searchTerm %>&sort=dir_name&order=desc"
+                  href="/directors?sort=dir_name&order=desc"
                   class="arrow down-arrow"
                   >↓</a
                 >
@@ -49,12 +53,12 @@
               <span class="header-title">Education</span>
               <div class="arrow-container">
                 <a
-                  href="/directors/search?searchTerm=<%= searchTerm %>&sort=school&order=asc"
+                  href="/directors?sort=school&order=asc"
                   class="arrow up-arrow"
                   >↑</a
                 >
                 <a
-                  href="/directors/search?searchTerm=<%= searchTerm %>&sort=school&order=desc"
+                  href="/directors?sort=school&order=desc"
                   class="arrow down-arrow"
                   >↓</a
                 >
@@ -67,16 +71,22 @@
               <span class="header-title">Num. of Oscars (Director)</span>
               <div class="arrow-container">
                 <a
-                  href="/directors/search?searchTerm=<%= searchTerm %>&sort=dir_oscars&order=asc"
+                  href="/directors?sort=dir_oscars&order=asc"
                   class="arrow up-arrow"
                   >↑</a
                 >
                 <a
-                  href="/directors/search?searchTerm=<%= searchTerm %>&sort=dir_oscars&order=desc"
+                  href="/directors?sort=dir_oscars&order=desc"
                   class="arrow down-arrow"
                   >↓</a
                 >
               </div>
+            </div>
+          </th>
+
+          <th class="table-header" id="table-header-actions">
+            <div class="inner-th">
+              <span class="header-title">Actions</span>
             </div>
           </th>
         </tr>
@@ -92,6 +102,7 @@
           </td>
           <td><%= director.school %></td>
           <td><%= director.dir_oscars %></td>
+          <%- include("../partials/table/actionsCell_director", {director: director}) %>
         </tr>
         <% }) %>
       </tbody>
